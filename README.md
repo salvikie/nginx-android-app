@@ -45,15 +45,24 @@ Connect android device with USB cable, or launch android emulator.
 Run command to configure nginx core and libraries.
 
 ```
-#!sh
-% cd jni/nginx
+sudo yum install adb
 
-% auto/configure \
-    --crossbuild=android-arm \
-    --prefix=/sdcard/nginx \
-    --with-cc=$HOME/local/android-toolchain/arm-linux-androideabi/bin/gcc \
-    --without-pcre --without-http_rewrite_module --without-http_userid_module \
-    --with-cc-opt=-Wno-sign-compare
+插入8916 设备
+adb devices
+
+no pro
+
+
+echo 'SUBSYSTEM=="usb",ATTRS{idVendor}=="05c6",ATTRS{idProduct}=="9025",MODE="0666",GROUP="plugdev",SYMLINK+="android",SYMLINK+="android_adb"' > 90-android.rules
+
+
+
+cd jni/nginx
+
+./build_arm.sh
+cd ../../
+adb push sdcard /sdcard
+
 ```
 
 Build library and application
